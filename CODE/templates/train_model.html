@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title> Detecting stroke detection </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="static/css/ie/html5shiv.js"></script><![endif]-->
+		<script src="static/js/jquery.min.js"></script>
+		<script src="static/js/jquery.dropotron.min.js"></script>
+		<script src="static/js/jquery.scrollgress.min.js"></script>
+		<script src="static/js/jquery.scrolly.min.js"></script>
+		<script src="static/js/jquery.slidertron.min.js"></script>
+		<script src="static/js/skel.min.js"></script>
+		<script src="static/js/skel-layers.min.js"></script>
+		<script src="static/js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="static/css/skel.css" />
+			<link rel="stylesheet" href="static/css/style.css" />
+			<link rel="stylesheet" href="static/css/style-xlarge.css" />
+		</noscript>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<!--[if lte IE 9]><link rel="stylesheet" href="static/css/ie/v9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="static/css/ie/v8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header" class="skel-layers-fixed">
+				<nav id="nav">
+					<ul>
+						<li><a href="{{ url_for('home') }}">Home</a></li>
+						<li><a href="{{ url_for('load') }}">Load Dataset</a></li>
+						<li><a href="{{ url_for('view') }}">View Dataset</a></li>
+						<li><a href="{{ url_for('split') }}">Split Dataset</a></li>
+						<li><a href="{{ url_for('train_model') }}">Train Models</a></li>
+						<li><a href="{{ url_for('predict') }}">Prediction</a></li>
+						<li><a href="#">charts</a>
+						<ul>
+							<a href="{{ url_for('chart') }}">10_fold_croos_validation</a>
+							<a href="{{ url_for('chart1') }}"> leave_one_out validation</a>
+						</ul>
+						</li>
+
+					</ul>
+				</nav>
+			</header>
+
+		<center>
+			<div class="col-md-8">
+			  {% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+				  {% for category, message in messages %}
+					<div class="alert alert-{{ category }}">
+					  {{ message }}
+					</div>
+				  {% endfor %}
+				{% endif %}
+			  {% endwith %}
+			  {% block content %}{% endblock %}
+			</div>
+		</center>
+
+		<!-- Main -->
+			<section id="main" class="wrapper style1">
+				<header class="major">
+					<h2>Training models</h2>
+						{% if model is not defined %}
+							<br>
+							<p>Clustering and Classification Machine Learning models are trained and used for prediction if possible.<br>
+							Supervised and Unsupervised learning are used both individually as well as in conjunction with each other for prediction.
+							</p>
+						{% endif %}
+				</header>
+				{% if model==1 %}
+					<div>
+						<center>
+							<h3>The Accuracy of logistic regression the samples is {{ acc }}</h3>
+
+
+						</center>
+					</div>
+				{% elif model==2 %}
+					<div>
+						<center>
+							<h3>The Accuracy of Naive Bayes the samples is {{ acc }}</h3>
+
+						</center>
+					</div>
+				{% elif model==3 %}
+					<div>
+						<center>
+							<h3>The Accuracy of K Nearest Neighbors is {{ acc }}</h3>
+
+						</center>
+					</div>
+				{% elif model==4 %}
+					<div>
+						<center>
+							<h3>The Accuracy of Decision Tree is {{ acc }}</h3>
+
+						</center>
+					</div>
+				{% elif model==5 %}
+					<div>
+						<center>
+							<h3>The Accuracy ofRandom_Forest is {{ acc }}</h3>
+
+						</center>
+					</div>
+				{% elif model==6 %}
+					<div>
+						<center>
+							<h3>The Accuracy of Multi_layer_Perceptron is {{ acc }}</h3>
+						</center>
+					</div>
+				{% elif model==7 %}
+				<div>
+					<center>
+						<h3>The accuracy of support vector machine is {{ acc }}</h3>
+					</center>
+				</div>
+				{% elif model==8 %}
+				<div>
+					<center>
+						<h3>The accuracy of Cat Boost Classifier is {{ acc }}</h3>
+					</center>
+				</div>
+				{%endif%}
+
+				<div class="container">
+					<!-- Content -->
+						<section id="content">
+							<center>
+								<form action="{{ url_for('train_model') }}" method="post">
+									<label for="algo">Select a Model:</label>
+									<select id="algo" name="algo" style="width: 30%">
+										<option value="0">Select Model</option>
+									  	<option value="1"> Logistic Regression</option>
+									  	<option value="2">Naive Bayes</option>
+									  	<option value="3">K-Nearest Neighbors</option>
+									  	<option value="4"> Decision Tree</option>
+										<option value="5"> Random Forest</option>
+										<option value="6">Multi-layer Perceptron </option>
+										<option value="7">Support Vector Machine </option>
+										<option value="8">CatBoostClassifier</option>
+									</select>
+									<br>
+									<input type="submit">
+								</form>
+							</center>
+
+
+						</section>
+								
+				</div>
+			</section>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	</body>
+</html>
